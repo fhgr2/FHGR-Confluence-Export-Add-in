@@ -40,6 +40,9 @@ export async function run() {
 	document.getElementById("bf").style.fontWeight= "bold";
     // https://stackoverflow.com/questions/48371446/find-bold-words-in-selection-using-office-addin-javascript-api
     let tsr = context.document.body.getRange("Whole").getTextRanges([" "], true);
+	// https://docs.microsoft.com/en-us/javascript/api/word/word.body?view=word-js-preview#getrange-rangelocation-: API 1.3!
+	// https://docs.microsoft.com/en-us/javascript/api/word/word.range?view=word-js-preview#gettextranges-endingmarks--trimspacing-: API 1.3!
+	
     // console.log(tsr);
     // tsr.load("font/bold, font/italic, text, style");
 	document.getElementById("log").innerHTML = "a";
