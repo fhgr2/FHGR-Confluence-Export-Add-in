@@ -10,6 +10,13 @@ Office.onReady(info => {
     document.getElementById("sideload-msg").style.display = "none";
     document.getElementById("app-body").style.display = "flex";
     document.getElementById("run").onclick = run;
+	
+//	await Word.run(async (context) => {
+//	var document = context.document;
+//    document.properties.load("author, title");
+//    await context.sync();
+//    console.log("The author of this document is " + document.properties.author + " and the title is '" + document.properties.title + "'");
+//	});
   }
 });
 
@@ -20,13 +27,19 @@ export async function run() {
 	document.getElementById("if").style.fontWeight= "bold";
 	
     let identifyingFeaturesCCs = context.document.contentControls.getByTag("identifyingFeatures");
-    identifyingFeaturesCCs.load("items");
+    
+	// Muss ich items laden oder nicht? Eher nicht!
+	identifyingFeaturesCCs.load("items");
     await context.sync();
+	
+	// 
     for (let i = 0; i < identifyingFeaturesCCs.items.length; i++)
     {
       let identifyingFeaturesCC = identifyingFeaturesCCs.items[i];
       let ccs = identifyingFeaturesCC.contentControls;
-      ccs.load("items");
+      // Sollte auch nicht nötig sein. Resp. korrekt müsste sein:
+	  // css.load("items/text")
+	  ccs.load("items");
       await context.sync();
       for (let j = 0; j < ccs.items.length; j++) {
         let cc = ccs.items[j];
@@ -34,8 +47,9 @@ export async function run() {
         cc.insertHtml(text, 'Replace');        
       }
     }
-	document.getElementById("if").style.fontWeight= "normal";
 	await context.sync();
+	document.getElementById("if").style.fontWeight= "normal";
+	
 	
 	document.getElementById("bf").style.fontWeight= "bold";
     // https://stackoverflow.com/questions/48371446/find-bold-words-in-selection-using-office-addin-javascript-api
